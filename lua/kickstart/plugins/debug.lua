@@ -23,12 +23,47 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'Mgenuit/nvim-dap-kotlin',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
       '<F5>',
       function()
+        local file = vim.fn.expand('%:p')
+        if vim.fn.fnamemodify(file, ':t') == 'package.json' then
+          local content = vim.fn.readfile(file)
+          local json_str = table.concat(content, '\n')
+          local ok, json = pcall(vim.fn.json_decode, json_str)
+          if ok and json and json.scripts and json.scripts.start then
+            local start = json.scripts.start
+            local node_cmd = start:match("&&%s*(.+)")
+            if node_cmd then
+              local args = {}
+              for arg in node_cmd:gmatch("%S+") do
+                table.insert(args, arg)
+              end
+              if #args > 0 and args[1] == 'node' then
+                table.remove(args, 1)
+                table.insert(args, 1, '--inspect')
+                local program = table.remove(args)
+                local abs_program = vim.fn.getcwd() .. '/' .. program
+                require('dap').run({
+                  type = "pwa-node",
+                  request = "launch",
+                  name = "Debug start script",
+                  program = abs_program,
+                  cwd = vim.fn.getcwd(),
+                  runtimeArgs = args,
+                  sourceMaps = true,
+                  protocol = "inspector",
+                  console = "integratedTerminal",
+                })
+                return
+              end
+            end
+          end
+        end
         require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
@@ -96,6 +131,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
         'js-debug-adapter',
+        'java-debug-adapter',
       },
     }
 
@@ -146,6 +182,12 @@ return {
       },
     }
 
+    require('dap-kotlin').setup(
+            {
+              dap_command = vim.fn.stdpath('data') .. '/mason/bin/kotlin-debug-adapter'
+            }
+    )
+
     dap.adapters["pwa-node"] = {
       type = "server",
       host = "localhost",
@@ -173,5 +215,34 @@ return {
     }
 
     dap.configurations.typescript = dap.configurations.javascript
+
+
+    -- Java Debug Adapter
+    dap.adapters.java = {
+      type = 'executable',
+      command = 'java',
+      args = {
+        '-jar',
+        vim.fn.stdpath("data") .. '/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-0.53.2.jar',
+      },
+    }
+
+
+    dap.configurations.java = {
+      {
+        type = 'java',
+        request = 'launch',
+        name = 'Debug (Launch) - Current File',
+        mainClass = '${file}',
+        projectName = '${workspaceFolderBasename}',
+      },
+      {
+        type = 'java',
+        request = 'attach',
+        name = 'Debug (Attach) - Remote',
+        hostName = '127.0.0.1',
+        port = 5005,
+      },
+    }
   end,
 }

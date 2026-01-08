@@ -201,6 +201,15 @@ require('lazy').setup({
     },
   },
 
+
+  { 'Exafunction/windsurf.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('codeium').setup({})
+    end,
+  },
+
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -640,7 +649,9 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'shfmt', -- Used to format shell scripts
+        'java-debug-adapter',
         'js-debug-adapter',
+        'kotlin-debug-adapter'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -873,6 +884,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    lazy = true,
     main = 'nvim-treesitter.config', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
