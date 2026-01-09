@@ -651,7 +651,9 @@ require('lazy').setup({
         'shfmt', -- Used to format shell scripts
         'java-debug-adapter',
         'js-debug-adapter',
-        'kotlin-debug-adapter'
+        'kotlin-debug-adapter',
+        'tree-sitter-cli',
+        'typescript-language-server'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -884,13 +886,24 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    lazy = true,
-    main = 'nvim-treesitter.config', -- Sets main module to use for opts
+    lazy = false,
+    main = 'nvim-treesitter', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'go', 'html', 'java', 'javascript', 'kotlin', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'rust', 'typescript', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
+      parsers = {
+        kotlin = {
+          install_info = {
+            url = "https://github.com/fwcd/tree-sitter-kotlin",
+            files = { "src/parser.c", "src/scanner.c" },
+            branch = "main",
+            generate_requires_npm = false,
+            requires_generate_from_grammar = false,
+          },
+        },
+      },
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
@@ -900,7 +913,7 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
+  -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
