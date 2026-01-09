@@ -199,6 +199,7 @@ return {
         name = 'Debug (Launch) - Current File',
         mainClass = '${file}',
         projectName = '${workspaceFolderBasename}',
+        projectRoot = '${workspaceFolder}',
       },
       {
         type = 'kotlin',
