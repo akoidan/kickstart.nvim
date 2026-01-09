@@ -12,3 +12,12 @@ Forked from [kickstart](https://github.com/nvim-lua/kickstart.nvim)
 ```bash
 pacman -S tree-sitter-cli tree-sitter  ttf-firacode-nerd  typescript-language-server neovim-lspconfig neovim lua-socket
 ```
+
+
+## Kotlin debug
+- you have to build project first so /build/classes/kotlin/main contains the class
+- Open required file and presss `f5`
+
+## JS debug
+ - works on package.json start
+ - works on single file 
