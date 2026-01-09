@@ -31,6 +31,10 @@ return {
       '<F5>',
       function()
         local file = vim.fn.expand('%:p')
+        if vim.fn.fnamemodify(file, ':t'):match('%.spec%.ts$') then
+          vim.cmd('TestNearest')
+          return
+        end
         if vim.fn.fnamemodify(file, ':t') == 'package.json' then
           local content = vim.fn.readfile(file)
           local json_str = table.concat(content, '\n')
@@ -139,7 +143,7 @@ return {
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       -- Set icons to characters that are more likely to work in every terminal.
-      --    Feel free to remove or use ones that you like more! :)
+      --    Feel free to remove or use ones that are more likely to work in every terminal.
       --    Don't feel like these are good choices.
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
@@ -149,7 +153,6 @@ return {
           step_into = '⏎',
           step_over = '⏭',
           step_out = '⏮',
-          step_back = 'b',
           run_last = '▶▶',
           terminate = '⏹',
           disconnect = '⏏',
