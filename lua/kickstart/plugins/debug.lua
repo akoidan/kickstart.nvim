@@ -197,9 +197,11 @@ return {
         type = 'kotlin',
         request = 'launch',
         name = 'Debug (Launch) - Current File',
-        mainClass = '${file}',
+        mainClass = '${fileBasenameNoExtension}Kt',
         projectName = '${workspaceFolderBasename}',
         projectRoot = '${workspaceFolder}',
+        classPaths = { '${workspaceFolder}/build/classes/kotlin/main' },
+        sourcePaths = { '${workspaceFolder}/src/main/kotlin' },
       },
       {
         type = 'kotlin',
