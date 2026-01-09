@@ -857,8 +857,6 @@ require('lazy').setup({
 
   { 'numToStr/Comment.nvim', opts = {} },
 
-  'vim-test/vim-test',
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()

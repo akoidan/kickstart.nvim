@@ -32,7 +32,17 @@ return {
       function()
         local file = vim.fn.expand('%:p')
         if vim.fn.fnamemodify(file, ':t'):match('%.spec%.ts$') then
-          vim.cmd('TestNearest')
+          require('dap').run({
+            type = "pwa-node",
+            request = "launch",
+            name = "Debug Jest File",
+            program = vim.fn.getcwd() .. '/node_modules/.bin/jest',
+            args = { vim.fn.fnamemodify(file, ':.'), '--runInBand', '--watchAll=false' },
+            cwd = vim.fn.getcwd(),
+            sourceMaps = true,
+            protocol = "inspector",
+            console = "integratedTerminal",
+          })
           return
         end
         if vim.fn.fnamemodify(file, ':t') == 'package.json' then
