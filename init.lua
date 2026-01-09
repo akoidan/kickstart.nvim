@@ -647,21 +647,21 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        { name = 'stylua', version = 'v2.3.1' },
-        { name = 'shfmt', version = 'v3.12.0' },
-        { name = 'java-debug-adapter', version = '0.58.2' },
-        { name = 'js-debug-adapter', version = 'v1.105.0' },
-        { name = 'kotlin-debug-adapter', version = '0.4.4' },
-        { name = 'tree-sitter-cli', version = 'v0.26.3' },
-        { name = 'typescript-language-server', version = '5.1.3' },
-        { name = 'rust-analyzer', version = '2026-01-05' },
-        { name = 'lua-language-server', version = '3.16.4' },
-        { name = 'gopls', version = 'v0.21.0' },
-        { name = 'codelldb', version = 'v1.12.1' },
-        { name = 'jdtls', version = 'v1.54.0' },
-        { name = 'clangd', version = '21.1.8' },
-        { name = 'delve', version = 'v1.26.0' },
-        { name = 'kotlin-language-server', version = '1.3.13' },
+        'stylua',
+        'shfmt',
+        'java-debug-adapter',
+        'js-debug-adapter',
+        'kotlin-debug-adapter',
+        'tree-sitter-cli',
+        'typescript-language-server',
+        'rust-analyzer',
+        'lua-language-server',
+        'gopls',
+        'codelldb',
+        'jdtls',
+        'clangd',
+        'delve',
+        'kotlin-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

@@ -23,7 +23,7 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
-    --'Mgenuit/nvim-dap-kotlin',
+    'Mgenuit/nvim-dap-kotlin',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -182,11 +182,10 @@ return {
       },
     }
 
-    --require('dap-kotlin').setup {
-    --  dap_command = vim.fn.stdpath('data') .. '/mason/bin/kotlin-debug-adapter'
-    --}
+    require('dap-kotlin').setup {
+      dap_command = vim.fn.stdpath('data') .. '/mason/packages/kotlin-debug-adapter/adapter/bin/kotlin-debug-adapter'
+    }
 
-    -- Kotlin Debug Adapter
     dap.adapters.kotlin = {
       type = 'executable',
       command = vim.fn.stdpath('data') .. '/mason/packages/kotlin-debug-adapter/adapter/bin/kotlin-debug-adapter',
