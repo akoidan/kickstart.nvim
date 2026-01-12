@@ -82,6 +82,22 @@ return {
       end,
       desc = 'Debug: Start/Continue',
     },
+
+    ------- YAKUAKE HACK ----
+    --local map = vim.keymap.set
+    --
+    --map('n', '<Esc>O2Q', '<S-F2>')
+    --map('n', '<Esc>O2R', '<S-F3>')
+    --map('n', '<Esc>O2S', '<S-F4>')
+    --map('n', '<Esc>[15;2~', '<S-F5>')
+    --map('n', '<Esc>[17;2~', '<S-F6>')
+    --map('n', '<Esc>[18;2~', '<S-F7>')
+    --map('n', '<Esc>[19;2~', '<S-F8>')
+    --map('n', '<Esc>[20;2~', '<S-F9>')
+    --map('n', '<Esc>[21;2~', '<S-F10>')
+    --map('n', '<Esc>[23;2~', '<S-F11>')
+    --map('n', '<Esc>[24;2~', '<S-F12>')
+    ------- END YAKUAKE HACK -----
     {
       '<F7>',
       function()
@@ -103,6 +119,14 @@ return {
       end,
       desc = 'Debug: Step Out',
     },
+    {
+      '<Esc>[19;2~', -- yakuake patch
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step Out',
+    },
+
     {
       '<leader>b',
       function()
