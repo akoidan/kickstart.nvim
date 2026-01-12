@@ -187,6 +187,17 @@ require('lazy').setup({
 
   'mbbill/undotree', -- same as webstorm localhistory (git)
 
+  -- Persistent breakpoints
+  {
+    'Weissle/persistent-breakpoints.nvim',
+    config = function()
+      require('persistent-breakpoints').setup({
+        save_dir = vim.fn.getcwd() .. '/.neovim/persistent-breakpoints',
+        load_breakpoints_event = { "BufReadPost" },
+      })
+    end
+  },
+
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -223,12 +234,12 @@ require('lazy').setup({
   },
 
 
-  { 'Exafunction/windsurf.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
-    config = function()
-      require('codeium').setup({})
-    end,
-  },
+  --{ 'Exafunction/windsurf.nvim',
+  --  dependencies = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+  --  config = function()
+  --    require('codeium').setup({})
+  --  end,
+  --},
 
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -904,7 +915,7 @@ require('lazy').setup({
         log_level = 'error',
         auto_session_suppress_dirs = { '~/',  '/' },
       })
-    end,
+    end
   },
 
   { -- Collection of various small independent plugins/modules

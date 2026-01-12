@@ -30,13 +30,14 @@ return {
     {
       '<F5>',
       function()
+        local dap = require('dap');
         if dap.session() ~= nil then
           dap.continue()
           return
         end
         local file = vim.fn.expand('%:p')
         if vim.fn.fnamemodify(file, ':t'):match('%.spec%.ts$') then
-          require('dap').run({
+          dap.run({
             type = "pwa-node",
             request = "launch",
             name = "Debug Jest File",
@@ -66,7 +67,7 @@ return {
                 table.insert(args, 1, '--inspect')
                 local program = table.remove(args)
                 local abs_program = vim.fn.getcwd() .. '/' .. program
-                require('dap').run({
+                dap.run({
                   type = "pwa-node",
                   request = "launch",
                   name = "Debug start script",
@@ -125,6 +126,7 @@ return {
     {
       '<Esc>[19;2~', -- yakuake patch
       function()
+        print('step_out pressed')
         require('dap').step_out()
       end,
       desc = 'Debug: Step Out',
@@ -133,16 +135,16 @@ return {
     {
       '<leader>b',
       function()
-        require('dap').toggle_breakpoint()
+        require('persistent-breakpoints.api').toggle_breakpoint()
       end,
       desc = 'Debug: Toggle Breakpoint',
     },
     {
       '<leader>B',
       function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        require('persistent-breakpoints.api').set_conditional_breakpoint()
       end,
-      desc = 'Debug: Set Breakpoint',
+      desc = 'Debug: Set Conditional Breakpoint',
     },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
