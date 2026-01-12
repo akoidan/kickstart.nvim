@@ -30,6 +30,10 @@ return {
     {
       '<F5>',
       function()
+        if dap.session() ~= nil then
+          dap.continue()
+          return
+        end
         local file = vim.fn.expand('%:p')
         if vim.fn.fnamemodify(file, ':t'):match('%.spec%.ts$') then
           require('dap').run({
@@ -78,7 +82,6 @@ return {
             end
           end
         end
-        require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
     },
@@ -148,6 +151,28 @@ return {
         require('dapui').toggle()
       end,
       desc = 'Debug: See last session result.',
+    },
+    -- Stop debugger
+    {
+      '<F4>',
+      function()
+        require('dap').terminate()
+        require('dapui').close()
+      end,
+      desc = 'Debug: Stop debugging',
+    },
+    -- Rerun last debug session
+    {
+      '<F6>',
+      function()
+        local dap = require('dap')
+        if dap.session() == nil then
+          dap.run_last()
+        else
+          print('A debug session is already running. Stop it first with F4.')
+        end
+      end,
+      desc = 'Debug: Rerun last session',
     },
   },
   config = function()
